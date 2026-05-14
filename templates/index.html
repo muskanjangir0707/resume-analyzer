@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Resume Analyzer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+</div>
+<body>
+
+<div class="navbar">
+    <div class="container">
+    <p>
+
+Logged in as:
+<b>{{ session["user"] }}</b>
+
+</p>
+
+<a href="/logout">
+
+<button>
+
+Logout
+
+</button>
+
+</a>
+<a href="/history">
+
+<button>
+View Resume History
+</button>
+
+</a>
+<br><br>
+
+<a href="/admin">
+<button>
+Admin Dashboard
+</button>
+</a>
+
+<hr>
+
+<h2>Upload Your Resume</h2>
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+
+<label>Select Job Role:</label>
+
+<select name="job_role">
+
+<option value="Software Developer"
+{% if job_role == "Software Developer" %}
+selected
+{% endif %}>
+Software Developer
+</option>
+
+<option value="Data Analyst"
+{% if job_role == "Data Analyst" %}
+selected
+{% endif %}>
+Data Analyst
+</option>
+
+</select>
+
+<br><br>
+
+<label>Paste Job Description:</label>
+
+<br>
+
+<textarea name="job_description"
+rows="6"
+cols="80"></textarea>
+
+<br><br>
+
+<input type="file"
+name="file"
+required>
+
+<button type="submit">
+Upload
+</button>
+
+</form>
+
+<hr>
+
+<h3>ATS Score:</h3>
+
+<h2>
+{{ ats_score }}%
+</h2>
+
+<h3>Resume Strength Level:</h3>
+
+<h2>
+{{ strength_level }}
+</h2>
+
+<!-- GAUGE -->
+
+<<div class="chart-small">
+
+<canvas id="gaugeChart"></canvas>
+
+</div>
+
+<script>
+
+var score =
+Number("{{ ats_score | default(0) }}");
+
+var ctx =
+document.getElementById("gaugeChart")
+.getContext("2d");
+
+new Chart(ctx, {
+
+type: "doughnut",
+
+data: {
+
+datasets: [{
+
+data: [
+score,
+100 - score
+],
+
+cutout: "80%"
+
+}]
+
+},
+
+options: {
+
+rotation: 270,
+
+circumference: 180,
+
+plugins: {
+
+legend: {
+display: false
+}
+
+}
+
+}
+
+});
+
+</script>
+
+<hr>
+
+<h3>Highlighted Resume:</h3>
+
+<div style="white-space: pre-wrap;
+border: 1px solid black;
+padding: 10px;">
+
+{{ extracted_text | safe }}
+
+</div>
+
+<hr>
+
+<h3>Detected Skills:</h3>
+
+<ul>
+{% for skill in skills %}
+<li>{{ skill }}</li>
+{% endfor %}
+</ul>
+
+<h3>Missing Skills:</h3>
+
+<ul>
+{% for skill in missing_skills %}
+<li>{{ skill }}</li>
+{% endfor %}
+</ul>
+
+<h3>Job Description Match Score:</h3>
+
+<h2>
+{{ match_score }}%
+</h2>
+
+<h3>Suggestions:</h3>
+
+<ul>
+{% for s in suggestions %}
+<li>{{ s }}</li>
+{% endfor %}
+</ul>
+
+<h3>Resume Tips:</h3>
+
+<ul>
+{% for tip in resume_tips %}
+<li>{{ tip }}</li>
+{% endfor %}
+</ul>
+
+<hr>
+
+<h3>Skill Match Chart:</h3>
+
+<div class="chart-small">
+
+<canvas id="skillsChart"></canvas>
+
+</div>
+
+<script>
+
+var matched =
+Number("{{ matched_count | default(0) }}");
+
+var missing =
+Number("{{ missing_count | default(0) }}");
+
+var ctx2 =
+document.getElementById("skillsChart")
+.getContext("2d");
+
+new Chart(ctx2, {
+
+type: "pie",
+
+data: {
+
+labels: [
+"Matched Skills",
+"Missing Skills"
+],
+
+datasets: [{
+
+data: [
+matched,
+missing
+]
+
+}]
+
+}
+
+});
+
+</script>
+
+<br><br>
+
+<div style="text-align:center; margin-top:20px;">
+
+<a href="/download">
+
+<button
+style="padding:10px 20px;
+font-size:16px;
+cursor:pointer;">
+
+Download Report as PDF
+
+</button>
+
+</a>
+
+</div>
+</a>
+</div>
+</body>
+
+</html>
