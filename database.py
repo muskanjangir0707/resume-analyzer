@@ -1,5 +1,9 @@
 import sqlite3
 
+# -------------------------
+# CREATE HISTORY TABLE
+# -------------------------
+
 def create_table():
 
     conn = sqlite3.connect("resume_history.db")
@@ -8,17 +12,27 @@ def create_table():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS history (
+
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+
             job_role TEXT,
+
             ats_score INTEGER,
+
             match_score INTEGER,
+
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
 
     conn.commit()
+
     conn.close()
 
+
+# -------------------------
+# INSERT HISTORY
+# -------------------------
 
 def insert_history(job_role, ats_score, match_score):
 
@@ -32,12 +46,18 @@ def insert_history(job_role, ats_score, match_score):
             ats_score,
             match_score
         )
+
         VALUES (?, ?, ?)
     """, (job_role, ats_score, match_score))
 
     conn.commit()
+
     conn.close()
 
+
+# -------------------------
+# GET HISTORY
+# -------------------------
 
 def get_history():
 
@@ -48,7 +68,7 @@ def get_history():
     cursor.execute("""
         SELECT *
         FROM history
-        ORDER BY id ASC
+        ORDER BY id DESC
     """)
 
     data = cursor.fetchall()
@@ -56,35 +76,52 @@ def get_history():
     conn.close()
 
     return data
+
+
+# -------------------------
+# DASHBOARD STATS
+# -------------------------
+
 def get_dashboard_stats():
 
     conn = sqlite3.connect("resume_history.db")
 
     cursor = conn.cursor()
 
-    # total resumes
-    cursor.execute(
-        "SELECT COUNT(*) FROM history"
-    )
+    # Total resumes
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM history
+    """)
 
     total_resumes = cursor.fetchone()[0]
 
-    # average ATS
-    cursor.execute(
-        "SELECT AVG(ats_score) FROM history"
-    )
+    # Average ATS
+
+    cursor.execute("""
+        SELECT AVG(ats_score)
+        FROM history
+    """)
 
     avg_ats = cursor.fetchone()[0]
 
     if avg_ats is None:
         avg_ats = 0
 
-    # most selected role
+    avg_ats = int(avg_ats)
+
+    # Most selected role
+
     cursor.execute("""
-        SELECT job_role
+        SELECT job_role, COUNT(*)
+
         FROM history
+
         GROUP BY job_role
+
         ORDER BY COUNT(*) DESC
+
         LIMIT 1
     """)
 
@@ -93,27 +130,96 @@ def get_dashboard_stats():
     if result:
         most_role = result[0]
     else:
-        most_role = "N/A"
+        most_role = "No Data"
 
     conn.close()
 
-    return (
-        total_resumes,
-        round(avg_ats),
-        most_role
-    )
-def get_ats_trend():
+    return total_resumes, avg_ats, most_role
+
+
+# -------------------------
+# CREATE USERS TABLE
+# -------------------------
+
+def create_users_table():
 
     conn = sqlite3.connect("resume_history.db")
 
     cursor = conn.cursor()
 
-    cursor.execute(
-        "SELECT id, ats_score FROM history"
-    )
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
 
-    data = cursor.fetchall()
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            username TEXT UNIQUE,
+
+            email TEXT,
+
+            password TEXT
+        )
+    """)
+
+    conn.commit()
 
     conn.close()
 
-    return data
+
+# -------------------------
+# REGISTER USER
+# -------------------------
+
+def register_user(username, email, password):
+
+    conn = sqlite3.connect("resume_history.db")
+
+    cursor = conn.cursor()
+
+    try:
+
+        cursor.execute("""
+            INSERT INTO users (
+                username,
+                email,
+                password
+            )
+
+            VALUES (?, ?, ?)
+        """, (username, email, password))
+
+        conn.commit()
+
+        conn.close()
+
+        return True
+
+    except:
+
+        conn.close()
+
+        return False
+
+
+# -------------------------
+# CHECK LOGIN USER
+# -------------------------
+
+def check_user(username, password):
+
+    conn = sqlite3.connect("resume_history.db")
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM users
+
+        WHERE username = ?
+        AND password = ?
+    """, (username, password))
+
+    user = cursor.fetchone()
+
+    conn.close()
+
+    return user

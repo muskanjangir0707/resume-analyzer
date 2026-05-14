@@ -1,97 +1,307 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(to right, #667eea, #764ba2);
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f0e6;
+
     margin: 0;
     padding: 0;
+
+    color: #2f3e34;
 }
 
+
+/* NAVBAR */
+
 .navbar {
-    background-color: #333;
-    padding: 14px;
+
+    background-color: #4f6f52;
+
+    padding: 15px;
+
     text-align: center;
+
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
 }
 
 .navbar a {
+
     color: white;
-    margin: 0 15px;
+
     text-decoration: none;
+
+    margin: 0 15px;
+
     font-weight: bold;
+
+    font-size: 16px;
 }
 
 .navbar a:hover {
-    color: yellow;
+
+    color: #d8e3d2;
 }
+
+
+/* MAIN CONTAINER */
 
 .container {
-    width: 70%;
-    margin: 30px auto;
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+    width: 85%;
+
+    margin: auto;
+
+    margin-top: 30px;
+
+    background: #fffaf3;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.12);
 }
 
-h2 {
+
+/* HEADINGS */
+
+h1, h2, h3 {
+
     text-align: center;
+
+    color: #3b5249;
 }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
 
-button:hover {
-    background-color: #45a049;
+/* FORM ELEMENTS */
+
+form {
+
+    margin-top: 20px;
 }
 
 input,
 select,
 textarea {
+
     width: 100%;
-    padding: 10px;
-    margin: 8px 0 15px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-textarea {
-    width: 100%;
-    height: 200px;   /* reduced size */
-    resize: vertical;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+
+    border: 1px solid #cfd8c6;
+
+    background: white;
+
+    font-size: 15px;
+
+    color: #2f3e34;
 }
 
-ul {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
+
+/* BUTTONS */
+
+button {
+
+    background: #6b8f71;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 22px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.3s;
 }
 
-mark {
-    background-color: yellow;
-    font-weight: bold;
+button:hover {
+
+    background: #4f6f52;
+
+    transform: scale(1.05);
+}
+
+
+/* CARDS */
+
+.cards {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    flex-wrap: wrap;
+
+    margin-top: 30px;
 }
 
 .card {
-    background: #f2f2f2;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 10px;
+
+    background: white;
+
+    width: 220px;
+
+    padding: 20px;
+
+    border-radius: 16px;
+
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.12);
+
+    text-align: center;
+
+    border: 1px solid #dce5d5;
 }
 
-hr {
-    margin: 20px 0;
+
+/* TABLE */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+
+    background: white;
 }
-.chart-container {
-    width: 300px;
-    height: 300px;
-    margin: auto;
+
+table th {
+
+    background: #6b8f71;
+
+    color: white;
+
+    padding: 12px;
 }
-.chart-small {
-    width: 260px;
-    height: 260px;
+
+table td {
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    text-align: center;
+}
+
+
+/* RESUME TEXT BOX */
+
+.resume-box {
+
+    white-space: pre-wrap;
+
+    border: 1px solid #dce5d5;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    background: #fcfaf7;
+
+    max-height: 400px;
+
+    overflow-y: auto;
+}
+
+
+/* CHART SECTION */
+
+.chart-box {
+
+    width: 500px;
+
     margin: auto;
+
+    margin-top: 30px;
+}
+
+
+/* LOGIN & REGISTER */
+
+.auth-box {
+
+    width: 400px;
+
+    margin: auto;
+
+    margin-top: 80px;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.15);
+}
+
+
+/* LINKS */
+
+a {
+
+    text-decoration: none;
+
+    color: #4f6f52;
+
+    font-weight: bold;
+}
+
+a:hover {
+
+    color: #6b8f71;
+}
+
+
+/* SKILL HIGHLIGHT */
+
+mark {
+
+    background-color: #d8e3d2;
+
+    padding: 2px 5px;
+
+    border-radius: 5px;
+}
+
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .container {
+
+        width: 95%;
+    }
+
+    .cards {
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+    .chart-box {
+
+        width: 100%;
+    }
+
+    .auth-box {
+
+        width: 90%;
+    }
 }
