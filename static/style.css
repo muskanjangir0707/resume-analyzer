@@ -7,7 +7,7 @@ body {
     margin: 0;
     padding: 0;
 
-    color: #2f3e34;
+    color: #2b2b2b;
 }
 
 
@@ -15,13 +15,13 @@ body {
 
 .navbar {
 
-    background-color: #4f6f52;
+    background-color: #1f3c5c;
 
     padding: 15px;
 
     text-align: center;
 
-    box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
 }
 
 .navbar a {
@@ -39,7 +39,7 @@ body {
 
 .navbar a:hover {
 
-    color: #d8e3d2;
+    color: #d8e3ec;
 }
 
 
@@ -69,11 +69,11 @@ h1, h2, h3 {
 
     text-align: center;
 
-    color: #3b5249;
+    color: #1f3c5c;
 }
 
 
-/* FORM ELEMENTS */
+/* FORMS */
 
 form {
 
@@ -94,13 +94,13 @@ textarea {
 
     border-radius: 10px;
 
-    border: 1px solid #cfd8c6;
+    border: 1px solid #cfd8e3;
 
     background: white;
 
     font-size: 15px;
 
-    color: #2f3e34;
+    color: #2b2b2b;
 }
 
 
@@ -108,7 +108,7 @@ textarea {
 
 button {
 
-    background: #6b8f71;
+    background: #1f3c5c;
 
     color: white;
 
@@ -127,7 +127,7 @@ button {
 
 button:hover {
 
-    background: #4f6f52;
+    background: #3e5c76;
 
     transform: scale(1.05);
 }
@@ -162,11 +162,11 @@ button:hover {
 
     text-align: center;
 
-    border: 1px solid #dce5d5;
+    border: 1px solid #dde5ec;
 }
 
 
-/* TABLE */
+/* TABLES */
 
 table {
 
@@ -181,7 +181,7 @@ table {
 
 table th {
 
-    background: #6b8f71;
+    background: #1f3c5c;
 
     color: white;
 
@@ -198,13 +198,13 @@ table td {
 }
 
 
-/* RESUME TEXT BOX */
+/* RESUME TEXT */
 
 .resume-box {
 
     white-space: pre-wrap;
 
-    border: 1px solid #dce5d5;
+    border: 1px solid #dde5ec;
 
     padding: 15px;
 
@@ -218,7 +218,7 @@ table td {
 }
 
 
-/* CHART SECTION */
+/* CHART */
 
 .chart-box {
 
@@ -230,7 +230,7 @@ table td {
 }
 
 
-/* LOGIN & REGISTER */
+/* LOGIN + REGISTER */
 
 .auth-box {
 
@@ -256,22 +256,22 @@ a {
 
     text-decoration: none;
 
-    color: #4f6f52;
+    color: #1f3c5c;
 
     font-weight: bold;
 }
 
 a:hover {
 
-    color: #6b8f71;
+    color: #3e5c76;
 }
 
 
-/* SKILL HIGHLIGHT */
+/* HIGHLIGHT */
 
 mark {
 
-    background-color: #d8e3d2;
+    background-color: #d8e3ec;
 
     padding: 2px 5px;
 
@@ -279,7 +279,7 @@ mark {
 }
 
 
-/* MOBILE RESPONSIVE */
+/* MOBILE */
 
 @media (max-width: 768px) {
 
