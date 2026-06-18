@@ -11,16 +11,16 @@ from database import (
     insert_history,
     get_history,
     get_dashboard_stats,
-    create_users_table,
     register_user,
-    check_user
+    check_user,
+    check_email,
+    reset_password
 )
 
 app = Flask(__name__)
 app.secret_key = "resume_analyzer_secret_key"
 
 create_table()
-create_users_table()
 
 skills_db = [
     "python", "java", "c", "c++", "html", "css", "javascript",
@@ -40,9 +40,7 @@ job_roles = {
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-
     if request.method == "POST":
-
         username = request.form.get("username")
         email = request.form.get("email")
         password = request.form.get("password")
@@ -54,7 +52,7 @@ def register():
 
         return render_template(
             "register.html",
-            error="Username already exists"
+            error="Username or email already exists"
         )
 
     return render_template("register.html")
@@ -62,16 +60,13 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
     if request.method == "POST":
-
         username = request.form.get("username")
         password = request.form.get("password")
 
         user = check_user(username, password)
 
-        if user or (username == "admin" and password == "1234"):
-
+        if user:
             session["user"] = username
             return redirect("/")
 
@@ -83,9 +78,51 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = request.form.get("email")
+
+        user = check_email(email)
+
+        if user:
+            session["reset_email"] = email
+            return redirect("/reset-password")
+
+        return render_template(
+            "forgot_password.html",
+            error="Email not found"
+        )
+
+    return render_template("forgot_password.html")
+
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password_page():
+    if "reset_email" not in session:
+        return redirect("/forgot-password")
+
+    if request.method == "POST":
+        new_password = request.form.get("new_password")
+        confirm_password = request.form.get("confirm_password")
+
+        if new_password != confirm_password:
+            return render_template(
+                "reset_password.html",
+                error="Passwords do not match"
+            )
+
+        reset_password(session["reset_email"], new_password)
+
+        session.pop("reset_email", None)
+
+        return redirect("/login")
+
+    return render_template("reset_password.html")
+
+
 @app.route("/")
 def home():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -107,17 +144,18 @@ def home():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-
     if "user" not in session:
         return redirect("/login")
 
-    file = request.files["file"]
+    file = request.files.get("file")
     job_role = request.form.get("job_role")
+
+    if not file:
+        return redirect("/")
 
     text = ""
 
-    if file and file.filename.endswith(".pdf"):
-
+    if file.filename.endswith(".pdf"):
         pdf_reader = PyPDF2.PdfReader(file)
 
         for page in pdf_reader.pages:
@@ -211,21 +249,15 @@ def upload():
 
 @app.route("/history")
 def history():
-
     if "user" not in session:
         return redirect("/login")
 
     data = get_history()
-
-    return render_template(
-        "history.html",
-        history=data
-    )
+    return render_template("history.html", history=data)
 
 
 @app.route("/admin")
 def admin():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -252,7 +284,6 @@ def admin():
 
 @app.route("/download")
 def download():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -341,7 +372,6 @@ def download():
 
 @app.route("/export_excel")
 def export_excel():
-
     if "user" not in session:
         return redirect("/login")
 
@@ -382,17 +412,10 @@ def export_excel():
 
 @app.route("/logout")
 def logout():
-
     session.clear()
     return redirect("/login")
 
 
 if __name__ == "__main__":
-
     port = int(os.environ.get("PORT", 5000))
-
-    app.run(
-        host="0.0.0.0",
-        port=port,
-        debug=True
-    )
+    app.run(host="0.0.0.0", port=port, debug=True)

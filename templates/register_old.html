@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Register</title>
+
+ <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+.container {
+    width: 400px;
+    margin: auto;
+    margin-top: 80px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px gray;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Create Account</h2>
+
+<form method="POST">
+
+<label>Username</label>
+
+<input
+type="text"
+name="username"
+required>
+
+<label>Email</label>
+
+<input
+type="email"
+name="email"
+required>
+
+<label>Password</label>
+
+<input
+type="password"
+name="password"
+required>
+
+<button type="submit">
+
+Register
+
+</button>
+
+</form>
+
+{% if error %}
+
+<p style="color:red;">
+
+{{ error }}
+
+</p>
+
+{% endif %}
+
+<br>
+
+<a href="/login">
+
+Already have an account? Login
+
+</a>
+
+</div>
+
+</body>
+
+</html>
